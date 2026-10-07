@@ -531,6 +531,43 @@ namespace NzbDrone.Core.Test.ParserTests
             result.Should().Contain(Language.Georgian);
         }
 
+        [TestCase("Movie.Title.2019.PUNJABI.1080p.WEB-DL.DD5.1.H264", "Punjabi")]
+        [TestCase("Movie Title (2019) Punjabi 720p HDRip x264", "Punjabi")]
+        [TestCase("Movie_Title_2019_Panjabi_WEB-DL", "Punjabi")]
+        [TestCase("Movie.Title.2021.Gujarati.1080p.WEB-DL", "Gujarati")]
+        [TestCase("Movie.Title.2020.Odia.720p.WEB-DL", "Odia")]
+        [TestCase("Movie.Title.2020.ORIYA.720p.WEB-DL", "Odia")]
+        [TestCase("Movie.Title.2018.Assamese.1080p.WEB-DL", "Assamese")]
+        [TestCase("Movie.Title.2018.Nepali.1080p.WEB-DL", "Nepali")]
+        [TestCase("Movie.Title.2018.Sinhala.1080p.WEB-DL", "Sinhala")]
+        [TestCase("Movie.Title.2018.Malay.1080p.WEB-DL", "Malay")]
+        [TestCase("Movie.Title.2018.Kazakh.1080p.WEB-DL", "Kazakh")]
+        [TestCase("Movie.Title.2018.Armenian.1080p.WEB-DL", "Armenian")]
+        [TestCase("Movie.Title.2018.Welsh.1080p.BluRay", "Welsh")]
+        [TestCase("Movie.Title.2018.Basque.1080p.BluRay", "Basque")]
+        [TestCase("Movie.Title.2018.Kurdish.1080p.BluRay", "Kurdish")]
+        [TestCase("Movie.Title.2018.Scottish.Gaelic.1080p.BluRay", "Scottish Gaelic")]
+        [TestCase("Movie.Title.2018.Haitian.Creole.1080p.WEB-DL", "Haitian Creole")]
+        [TestCase("Movie.Title.2018.Swahili.1080p.WEB-DL", "Swahili")]
+        [TestCase("Movie.Title.2018.Yoruba.1080p.WEB-DL", "Yoruba")]
+        public void should_parse_tmdb_language_names(string postTitle, string languageName)
+        {
+            var result = LanguageParser.ParseLanguages(postTitle);
+            result.Should().Contain((Language)languageName);
+        }
+
+        [TestCase("Movie.Title.2018.Malayalam.1080p.WEB-DL", "Malay")]
+        [TestCase("Movie.Title.2018.Telugu.Tamil.Malayalam.1080p.WEB-DL", "Malay")]
+        [TestCase("Movie.Title.2018.Spanish.Latin.1080p.WEB-DL", "Latin")]
+        [TestCase("Movie.Title.2018.1080p.WEB-DL.Video-GROUP", "Ido")]
+        [TestCase("Movie.Title.2018.1080p.Screener-GROUP", "Cree")]
+        [TestCase("Movie.Title.2018.Propaganda.1080p.WEB-DL", "Ganda")]
+        public void should_not_parse_tmdb_language_from_partial_words(string postTitle, string languageName)
+        {
+            var result = LanguageParser.ParseLanguages(postTitle);
+            result.Should().NotContain((Language)languageName);
+        }
+
         [TestCase("Movie.Title.en.sub")]
         [TestCase("Movie Title.eng.sub")]
         [TestCase("Movie.Title.eng.forced.sub")]

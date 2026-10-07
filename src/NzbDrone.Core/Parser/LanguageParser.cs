@@ -54,6 +54,136 @@ namespace NzbDrone.Core.Parser
                                                                                                           (?<spanish>\b(?<!DTS[._ -])ES\b))(?:(?i)(?![\W|_|^]SUB))",
                                                                 RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
 
+        private static readonly (string Group, string Names, Language Language)[] LanguageNames =
+        {
+            ("abkhazian", "abkhazian|abkhaz", Language.Abkhazian),
+            ("akan", "akan", Language.Akan),
+            ("amharic", "amharic", Language.Amharic),
+            ("aragonese", "aragonese", Language.Aragonese),
+            ("armenian", "armenian", Language.Armenian),
+            ("assamese", "assamese", Language.Assamese),
+            ("avaric", "avaric", Language.Avaric),
+            ("avestan", "avestan", Language.Avestan),
+            ("aymara", "aymara", Language.Aymara),
+            ("azerbaijani", "azerbaijani|azeri", Language.Azerbaijani),
+            ("bambara", "bambara", Language.Bambara),
+            ("bashkir", "bashkir", Language.Bashkir),
+            ("basque", "basque|euskara", Language.Basque),
+            ("belarusian", "belarusian|belarussian", Language.Belarusian),
+            ("bislama", "bislama", Language.Bislama),
+            ("breton", "breton", Language.Breton),
+            ("burmese", "burmese", Language.Burmese),
+            ("chamorro", "chamorro", Language.Chamorro),
+            ("chechen", "chechen", Language.Chechen),
+            ("chichewa", "chichewa|nyanja", Language.Chichewa),
+            ("churchslavic", "church[ ._-]?slavic|church[ ._-]?slavonic", Language.ChurchSlavic),
+            ("chuvash", "chuvash", Language.Chuvash),
+            ("cornish", "cornish", Language.Cornish),
+            ("corsican", "corsican", Language.Corsican),
+            ("cree", "cree", Language.Cree),
+            ("divehi", "divehi|dhivehi|maldivian", Language.Divehi),
+            ("dzongkha", "dzongkha", Language.Dzongkha),
+            ("esperanto", "esperanto", Language.Esperanto),
+            ("faroese", "faroese", Language.Faroese),
+            ("fijian", "fijian", Language.Fijian),
+            ("frisian", "frisian", Language.Frisian),
+            ("fulah", "fulah|fula|fulani|fulfulde", Language.Fulah),
+            ("galician", "galician|galego", Language.Galician),
+            ("ganda", "luganda|ganda", Language.Ganda),
+            ("guarani", "guarani", Language.Guarani),
+            ("gujarati", "gujarati", Language.Gujarati),
+            ("haitiancreole", "haitian[ ._-]?creole|kreyol", Language.HaitianCreole),
+            ("hausa", "hausa", Language.Hausa),
+            ("herero", "herero", Language.Herero),
+            ("hirimotu", "hiri[ ._-]?motu", Language.HiriMotu),
+            ("igbo", "igbo", Language.Igbo),
+            ("interlingua", "interlingua", Language.Interlingua),
+            ("interlingue", "interlingue", Language.Interlingue),
+            ("inuktitut", "inuktitut", Language.Inuktitut),
+            ("inupiaq", "inupiaq", Language.Inupiaq),
+            ("irish", "irish|gaeilge", Language.Irish),
+            ("javanese", "javanese", Language.Javanese),
+            ("kalaallisut", "kalaallisut|greenlandic", Language.Kalaallisut),
+            ("kanuri", "kanuri", Language.Kanuri),
+            ("kashmiri", "kashmiri", Language.Kashmiri),
+            ("kazakh", "kazakh", Language.Kazakh),
+            ("khmer", "khmer|cambodian", Language.Khmer),
+            ("kikuyu", "kikuyu", Language.Kikuyu),
+            ("kinyarwanda", "kinyarwanda", Language.Kinyarwanda),
+            ("komi", "komi", Language.Komi),
+            ("kongo", "kikongo|kongo", Language.Kongo),
+            ("kuanyama", "kuanyama|kwanyama", Language.Kuanyama),
+            ("kurdish", "kurdish|kurdi|sorani|kurmanji", Language.Kurdish),
+            ("kyrgyz", "kyrgyz|kirghiz", Language.Kyrgyz),
+            ("lao", "lao|laotian", Language.Lao),
+            ("limburgish", "limburgish", Language.Limburgish),
+            ("lingala", "lingala", Language.Lingala),
+            ("lubakatanga", "luba[ ._-]?katanga|kiluba", Language.LubaKatanga),
+            ("luxembourgish", "luxembourgish|letzeburgesch", Language.Luxembourgish),
+            ("malagasy", "malagasy", Language.Malagasy),
+            ("malay", "malay", Language.Malay),
+            ("maltese", "maltese", Language.Maltese),
+            ("manx", "manx", Language.Manx),
+            ("maori", "maori", Language.Maori),
+            ("marshallese", "marshallese", Language.Marshallese),
+            ("nauru", "nauru|nauruan", Language.Nauru),
+            ("navajo", "navajo|navaho", Language.Navajo),
+            ("ndonga", "ndonga", Language.Ndonga),
+            ("nepali", "nepali|nepalese", Language.Nepali),
+            ("northndebele", "north[ ._-]?ndebele", Language.NorthNdebele),
+            ("northernsami", "northern[ ._-]?sami|sami", Language.NorthernSami),
+            ("sichuanyi", "sichuan[ ._-]?yi|nuosu", Language.SichuanYi),
+            ("occitan", "occitan", Language.Occitan),
+            ("odia", "odia|oriya", Language.Odia),
+            ("ojibwa", "ojibwa|ojibwe", Language.Ojibwa),
+            ("oromo", "oromo", Language.Oromo),
+            ("ossetian", "ossetian|ossetic", Language.Ossetian),
+            ("pali", "pali", Language.Pali),
+            ("pashto", "pashto|pushto", Language.Pashto),
+            ("punjabi", "punjabi|panjabi", Language.Punjabi),
+            ("quechua", "quechua", Language.Quechua),
+            ("rundi", "kirundi|rundi", Language.Rundi),
+            ("samoan", "samoan", Language.Samoan),
+            ("sango", "sango", Language.Sango),
+            ("sanskrit", "sanskrit", Language.Sanskrit),
+            ("sardinian", "sardinian", Language.Sardinian),
+            ("scottishgaelic", "scottish[ ._-]?gaelic|gaidhlig", Language.ScottishGaelic),
+            ("shona", "shona", Language.Shona),
+            ("sindhi", "sindhi", Language.Sindhi),
+            ("sinhala", "sinhala|sinhalese", Language.Sinhala),
+            ("somali", "somali", Language.Somali),
+            ("southndebele", "south[ ._-]?ndebele", Language.SouthNdebele),
+            ("southernsotho", "sesotho|sotho", Language.SouthernSotho),
+            ("sundanese", "sundanese", Language.Sundanese),
+            ("swahili", "swahili|kiswahili", Language.Swahili),
+            ("swati", "swati|siswati", Language.Swati),
+            ("tahitian", "tahitian", Language.Tahitian),
+            ("tajik", "tajik", Language.Tajik),
+            ("tatar", "tatar", Language.Tatar),
+            ("tibetan", "tibetan", Language.Tibetan),
+            ("tigrinya", "tigrinya", Language.Tigrinya),
+            ("tongan", "tongan", Language.Tongan),
+            ("tsonga", "tsonga|xitsonga", Language.Tsonga),
+            ("tswana", "tswana|setswana", Language.Tswana),
+            ("turkmen", "turkmen", Language.Turkmen),
+            ("twi", "twi", Language.Twi),
+            ("uyghur", "uyghur|uighur", Language.Uyghur),
+            ("uzbek", "uzbek", Language.Uzbek),
+            ("venda", "tshivenda", Language.Venda),
+            ("volapuk", "volapuk|volapük", Language.Volapuk),
+            ("walloon", "walloon", Language.Walloon),
+            ("welsh", "welsh|cymraeg", Language.Welsh),
+            ("wolof", "wolof", Language.Wolof),
+            ("xhosa", "xhosa|isixhosa", Language.Xhosa),
+            ("yiddish", "yiddish", Language.Yiddish),
+            ("yoruba", "yoruba", Language.Yoruba),
+            ("zhuang", "zhuang", Language.Zhuang),
+            ("zulu", "zulu|isizulu", Language.Zulu)
+        };
+
+        private static readonly Regex LanguageNameRegex = new Regex(@"(?<![a-z0-9])(?:" + string.Join("|", LanguageNames.Select(l => $"(?<{l.Group}>{l.Names})")) + @")(?![a-z0-9])",
+                                                                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         private static readonly Regex GermanDualLanguageRegex = new(@"(?<!WEB[-_. ]?)\bDL\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex GermanMultiLanguageRegex = new(@"\bML\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -256,6 +386,17 @@ namespace NzbDrone.Core.Parser
             if (lowerTitle.Contains("tagalog"))
             {
                 languages.Add(Language.Tagalog);
+            }
+
+            foreach (Match match in LanguageNameRegex.Matches(title))
+            {
+                foreach (var languageName in LanguageNames)
+                {
+                    if (match.Groups[languageName.Group].Success)
+                    {
+                        languages.Add(languageName.Language);
+                    }
+                }
             }
 
             // Case-sensitive
